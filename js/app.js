@@ -24,10 +24,16 @@ var ViewModel = function() {
     // setup empty list filter
     self.query = ko.observable("");
 
+    // this controls which locations display in the list and on the map
+    // based on user input in the sidebar
     self.filteredRestaurants = ko.computed(function() {
         var filter = self.query().toLowerCase();
         if(!filter) {
-            // if filter query is empty, return all restaurants
+            // if filter query is empty, set all markers visible and return all restaurants
+            ko.utils.arrayForEach(self.restaurants(), function(restaurant) {
+                if(restaurant.marker)
+                restaurant.marker.setVisible(true);
+            });
             return self.restaurants();
         } else {
             // filter restaurant titles based on query
@@ -48,12 +54,154 @@ function init() {
     // initialize knockout bindings on ViewModel
     ko.applyBindings(vm);
 
+    // Create a styles array to use with the map
+    // Style taken from https://snazzymaps.com/style/70/unsaturated-browns
+    const styles = [
+        {
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#ff4400"
+                },
+                {
+                    "saturation": -68
+                },
+                {
+                    "lightness": -4
+                },
+                {
+                    "gamma": 0.72
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.icon"
+        },
+        {
+            "featureType": "landscape.man_made",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "hue": "#0077ff"
+                },
+                {
+                    "gamma": 3.1
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "stylers": [
+                {
+                    "hue": "#00ccff"
+                },
+                {
+                    "gamma": 0.44
+                },
+                {
+                    "saturation": -33
+                }
+            ]
+        },
+        {
+            "featureType": "poi.park",
+            "stylers": [
+                {
+                    "hue": "#44ff00"
+                },
+                {
+                    "saturation": -23
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "hue": "#007fff"
+                },
+                {
+                    "gamma": 0.77
+                },
+                {
+                    "saturation": 65
+                },
+                {
+                    "lightness": 99
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "labels.text.stroke",
+            "stylers": [
+                {
+                    "gamma": 0.11
+                },
+                {
+                    "weight": 5.6
+                },
+                {
+                    "saturation": 99
+                },
+                {
+                    "hue": "#0091ff"
+                },
+                {
+                    "lightness": -86
+                }
+            ]
+        },
+        {
+            "featureType": "transit.line",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "lightness": -48
+                },
+                {
+                    "hue": "#ff5e00"
+                },
+                {
+                    "gamma": 1.2
+                },
+                {
+                    "saturation": -23
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "labels.text.stroke",
+            "stylers": [
+                {
+                    "saturation": -64
+                },
+                {
+                    "hue": "#ff9100"
+                },
+                {
+                    "lightness": 16
+                },
+                {
+                    "gamma": 0.47
+                },
+                {
+                    "weight": 2.7
+                }
+            ]
+        }
+    ];
+
     const frenchQuarter = {
         lat: 29.9584,
         lng: -90.0644
     }
 
     map = new google.maps.Map(document.getElementById('map'), {
+        styles: styles,
         center: frenchQuarter,
         zoom: 15
     });
