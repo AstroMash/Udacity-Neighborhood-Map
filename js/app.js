@@ -92,6 +92,9 @@ function init() {
     map.fitBounds(bounds);
 
     this.showInfoWindow = function(map, marker) {
+        // clear previous infowindow
+        infoWindow.setContent('');
+        infoWindow.close();
         
         // query FourSquare API for extra data
         const fsClientId = 'V03AWSI2OZSAX04CKR0IYX3LIJDLWXLLKWXIPNQJNPQXPL2V';
@@ -109,11 +112,12 @@ function init() {
         })
         .done(function(data) {
             let response = data.response.venues[0];
+            // add foursquare data to marker object
             marker.category = response.categories[0].shortName;
             marker.streetAddress = response.location.formattedAddress[0];
             marker.foursquareId = response.id;
             marker.foursquareLink = "https://foursquare.com/v/" + marker.foursquareId;
-            console.log(response);
+            // add foursquare data to infowindow
             infoWindow.setContent(
                 '<p class="info info-title">' + marker.title + '</p>' +
                 '<p class="info info-street">' + marker.streetAddress + '</p>' +
@@ -121,6 +125,15 @@ function init() {
                 '<p class="info info-link"><a href="' + marker.foursquareLink + '?ref=' + fsClientId + '" target="_blank">View on Foursquare</a></p>' +
                 '<img class="info-attrib" src="img/powered-by-foursquare-grey-sm.png" alt="Powered by Foursquare">'
             );
+        })
+        .fail(function() {
+            infoWindow.setContent(
+                '<p class="info info-title">' + marker.title + '</p>' +
+                '<p class="info info-error">Foursquare data not available!</p>'
+            );
+        })
+        .always(function() {
+            // show infowindow
             infoWindow.open(map, marker);
         });
 
