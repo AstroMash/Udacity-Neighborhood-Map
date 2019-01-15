@@ -238,43 +238,28 @@ function init() {
         bounds.extend(marker.position);
   
         // listen for click on marker, populate then show infoWindow
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+        marker.addListener('click', (function(marker, i) {
             return function() {
-                // loop through all markers to see if they're the one we just clicked
-                for (var j = 0; j < markers.length; j++) {
-                    if(i !== j) 
-                    // if this isn't the marker we just clicked, make sure it isn't bouncing
-                    markers[j].setAnimation(-1);
-                    else
-                    // if this is the marker we just clicked, show the infowindow
-                    showInfoWindow(vm.restaurants()[i].title, map, marker);
-                };
-                toggleBounce(marker);
-            }
+                // show the infowindow (which will trigger the bounce)
+                showInfoWindow(vm.restaurants()[i].title, map, marker);
+            };
         })(marker, i));
     };
 
     function showInfoWindow(title, map, marker) {
+        bounceMarker(marker);
         infoWindow.setContent(title);
         infoWindow.open(map, marker);
         
     }
 
-    function toggleBounce(marker) {
-        // if this marker is already bouncing and we've clicked it, stop the bounce and hide the infowindow
-        if (marker.getAnimation() === google.maps.Animation.BOUNCE) {
-            marker.setAnimation(-1);
-            infoWindow.close();
-        } else {
-            // if this marker isn't bouncing, MAKE IT BOUNCE!
+    function bounceMarker(marker) {
+            // MAKE IT BOUNCE (but only once)!
             marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
-    }
-
-    // https://stackoverflow.com/questions/12410062/check-if-infowindow-is-opened-google-maps-v3
-    function isInfoWindowOpen(infoWindow){
-        var map = infoWindow.getMap();
-        return (map !== null && typeof map !== "undefined");
+            setTimeout(function() {
+                marker.setAnimation(-1);
+            }, 700);
+        
     }
 
     // tell the map to fit the new boundary set by markers
