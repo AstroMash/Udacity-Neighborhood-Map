@@ -240,23 +240,41 @@ function init() {
         // listen for click on marker, populate then show infoWindow
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
-                // stop other markers from bouncing
+                // loop through all markers to see if they're the one we just clicked
                 for (var j = 0; j < markers.length; j++) {
+                    if(i !== j) 
+                    // if this isn't the marker we just clicked, make sure it isn't bouncing
                     markers[j].setAnimation(-1);
+                    else
+                    // if this is the marker we just clicked, show the infowindow
+                    showInfoWindow(vm.restaurants()[i].title, map, marker);
                 };
                 toggleBounce(marker);
-                infoWindow.setContent(vm.restaurants()[i].title);
-                infoWindow.open(map, marker);
             }
         })(marker, i));
     };
 
+    function showInfoWindow(title, map, marker) {
+        infoWindow.setContent(title);
+        infoWindow.open(map, marker);
+        
+    }
+
     function toggleBounce(marker) {
-        if (marker.getAnimation() !== -1) {
+        // if this marker is already bouncing and we've clicked it, stop the bounce and hide the infowindow
+        if (marker.getAnimation() === google.maps.Animation.BOUNCE) {
             marker.setAnimation(-1);
+            infoWindow.close();
         } else {
+            // if this marker isn't bouncing, MAKE IT BOUNCE!
             marker.setAnimation(google.maps.Animation.BOUNCE);
         }
+    }
+
+    // https://stackoverflow.com/questions/12410062/check-if-infowindow-is-opened-google-maps-v3
+    function isInfoWindowOpen(infoWindow){
+        var map = infoWindow.getMap();
+        return (map !== null && typeof map !== "undefined");
     }
 
     // tell the map to fit the new boundary set by markers
