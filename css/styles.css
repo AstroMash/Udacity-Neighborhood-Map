@@ -44,15 +44,15 @@ h1 {
     cursor: pointer;
 }
 
-#show-hide-controls {
+#toggle-controls {
     text-align: center;
     margin: 0 auto;
-    width: 80%;
+    width: 16em;
 }
 
-#show-hide-controls input[type=button] {
+#toggle-controls input[type=button] {
     text-align: center;
-    width: 49%;
+    width: 100%;
     height: 2.5em;
 }
 

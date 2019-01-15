@@ -11,14 +11,13 @@
     <div id="wrapper">
         <aside id="sidebar">
             <h1>French Quarter Restaurants</h1>
-            <div id="show-hide-controls">
-                <input id="show-all" type="button" value="Reset">
-                <input id="hide-all" type="button" value="Hide markers">
-            </div>
             <input id="filter" type="search" data-bind="textInput: query" placeholder="Filter restaurants">
             <ul data-bind="foreach: filteredRestaurants">
                 <li data-bind="text: title, click: $parent.showMarker"></li>
             </ul>
+            <div id="toggle-controls">
+                <input id="toggle-all" type="button" value="Toggle Markers">
+            </div>
         </aside>
         <main id="map"></main>
     </div>
@@ -27,6 +26,7 @@
     async defer></script>
     <script src="js/vendor/knockout-3.4.2.js"></script>
     <script src="js/styles.js"></script>
+    <script src="js/data.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

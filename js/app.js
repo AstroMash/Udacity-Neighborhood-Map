@@ -1,25 +1,9 @@
 var map;
-
-class Location{
-    constructor(title, lat, long) {
-        this.title = title;
-        this.lat = lat;
-        this.long = long;
-    }
-};
+var restaurantsVisible = true;
 
 var ViewModel = function() {
     var self = this;
-    self.restaurants = ko.observableArray([
-        new Location('Cafe Du Monde', '29.957523', '-90.061862'),
-        new Location('Old Absinthe House', '29.955357', '-90.068444'),
-        new Location('Bourbon House', '29.954563', '-90.069131'),
-        new Location('Meauxbar', '29.962700', '-90.066160'),
-        new Location('Oceana Grill', '29.956270', '-90.067619'),
-        new Location('Muriel\'s Jackson Square', '29.958490', '-90.063179'),
-        new Location('Brennan\'s', '29.956240', '-90.066719'),
-        new Location('Sylvain', '29.957100', '-90.064240')
-    ]);
+    self.restaurants = ko.observableArray(locations);
 
     // setup empty list filter
     self.query = ko.observable("");
@@ -63,7 +47,7 @@ function init() {
         lat: 29.9584,
         lng: -90.0644
     }
-    
+
     map = new google.maps.Map(document.getElementById('map'), {
         styles: unsatBrown,
         center: frenchQuarter,
@@ -125,34 +109,37 @@ function init() {
     map.fitBounds(bounds);
 
     // listen for click on the show/hide restaurants buttons
-    document.querySelector("#show-all").addEventListener('click', showRestaurants);
-    document.querySelector("#hide-all").addEventListener('click', hideRestaurants);
+    document.querySelector("#toggle-all").addEventListener('click', toggleRestaurants);
 
-    // show all restaurants
-    function showRestaurants() {
-        // clear search filter
-        vm.query('');
-        // loop through markers array, extend boundary of map, and show the marker
-        for (var i = 0; i < markers.length; i++) {
-            // reset any invisible markers (from filter function)
-            markers[i].setVisible(true);
-            // stop any bouncing markers
-            markers[i].setAnimation(-1);
-            markers[i].setMap(map);
-            bounds.extend(markers[i].position);
-        }
-        // close infowindow
-        infoWindow.close();
-        // tell the map to fit the new boundary set by markers
-        map.fitBounds(bounds);
-    }
-
-    // hide all restaurants
-    function hideRestaurants() {
-        for (var i = 0; i < markers.length; i++) {
+    // toggle restaurant visibility
+    function toggleRestaurants() {
+        if(restaurantsVisible === false) {
+            // toggle visibility variable
+            restaurantsVisible = true;
+            // clear search filter
+            vm.query('');
+            // loop through markers array, extend boundary of map, and show the marker
+            for (var i = 0; i < markers.length; i++) {
+                // reset any invisible markers (from filter function)
+                markers[i].setVisible(true);
+                // stop any bouncing markers
+                markers[i].setAnimation(-1);
+                markers[i].setMap(map);
+                bounds.extend(markers[i].position);
+            }
             // close infowindow
             infoWindow.close();
-            markers[i].setMap(null);
-        };
-    };
+            // tell the map to fit the new boundary set by markers
+            map.fitBounds(bounds);
+        } else {
+            // toggle visibility variable
+            restaurantsVisible = false;
+            for (var i = 0; i < markers.length; i++) {
+                // close infowindow
+                infoWindow.close();
+                markers[i].setMap(null);
+            };
+        }
+    }
+
 };
