@@ -11,6 +11,9 @@
     <div id="wrapper">
         <aside id="sidebar">
             <h1>French Quarter Restaurants</h1>
+            <ul data-bind="foreach: restaurants">
+                <li data-bind="text: title"></li>
+            </ul>
         </aside>
         <main id="map"></main>
     </div>
