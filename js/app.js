@@ -5,3 +5,9 @@ function initMap() {
         zoom: 13
     });
 }
+
+var ViewModel = () => {
+    var self = this;
+};
+
+ko.applyBindings(new ViewModel());
