@@ -49,7 +49,8 @@ function init() {
     map = new google.maps.Map(document.getElementById('map'), {
         styles: unsatBrown,
         center: frenchQuarter,
-        zoom: 15
+        zoom: 15,
+        disableDefaultUI: true
     });
 
     // initialize empty infoWindow
