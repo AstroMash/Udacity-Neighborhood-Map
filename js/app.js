@@ -12,7 +12,6 @@ var ViewModel = function() {
     var self = this;
     self.restaurants = [
         new Location('Meauxbar', '29.962700', '-90.066160'),
-        new Location('Meauxbar', '29.962700', '-90.066160'),
         new Location('Oceana Grill', '29.956270', '-90.067619'),
         new Location('Muriel\'s Jackson Square', '29.958490', '-90.063179'),
         new Location('Brennan\'s', '29.956240', '-90.066719'),
@@ -33,11 +32,14 @@ function init() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: frenchQuarter,
-        zoom: 15
+        zoom: 18
     });
 
     // initialize empty infoWindow
     var infoWindow = new google.maps.InfoWindow();
+
+    // set up map boundary
+    var bounds = new google.maps.LatLngBounds();
 
     var marker, i;
 
@@ -45,10 +47,14 @@ function init() {
     for (i = 0; i < vm.restaurants.length; i++) {  
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(vm.restaurants[i].lat, vm.restaurants[i].long),
-          map: map
+          map: map,
+          animation: google.maps.Animation.DROP
         });
+
+        // extend boundary of map to fit new marker
+        bounds.extend(marker.position);
   
-        // listen for click on marker, show infowindow
+        // listen for click on marker, populate then show infoWindow
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
                 infoWindow.setContent(vm.restaurants[i].title);
@@ -56,4 +62,7 @@ function init() {
             }
         })(marker, i));
     };
+
+    // tell the map to fit the new boundary set by markers
+    map.fitBounds(bounds);
 };
