@@ -17,7 +17,7 @@
             </div>
             <input id="filter" type="search" data-bind="textInput: query" placeholder="Filter restaurants">
             <ul data-bind="foreach: filteredRestaurants">
-                <li data-bind="text: title"></li>
+                <li data-bind="text: title, click: $parent.showMarker"></li>
             </ul>
         </aside>
         <main id="map"></main>

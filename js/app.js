@@ -46,6 +46,11 @@ var ViewModel = function() {
             });
         };
     });
+
+    // show a list item's related marker infowindow when the list item is clicked
+    self.showMarker = function(restaurant) {
+        google.maps.event.trigger(restaurant.marker, "click");
+    };
 };
 
 function init() {
