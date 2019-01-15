@@ -240,11 +240,24 @@ function init() {
         // listen for click on marker, populate then show infoWindow
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
+                // stop other markers from bouncing
+                for (var j = 0; j < markers.length; j++) {
+                    markers[j].setAnimation(-1);
+                };
+                toggleBounce(marker);
                 infoWindow.setContent(vm.restaurants()[i].title);
                 infoWindow.open(map, marker);
             }
         })(marker, i));
     };
+
+    function toggleBounce(marker) {
+        if (marker.getAnimation() !== -1) {
+            marker.setAnimation(-1);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
 
     // tell the map to fit the new boundary set by markers
     map.fitBounds(bounds);
@@ -261,8 +274,8 @@ function init() {
         for (var i = 0; i < markers.length; i++) {
             // reset any invisible markers (from filter function)
             markers[i].setVisible(true);
-            // reset animation since it doesn't seem to play again after hiding
-            markers[i].setAnimation(google.maps.Animation.DROP);
+            // stop any bouncing markers
+            markers[i].setAnimation(-1);
             markers[i].setMap(map);
             bounds.extend(markers[i].position);
         }
