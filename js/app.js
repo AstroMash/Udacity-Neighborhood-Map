@@ -44,6 +44,7 @@ function init() {
     // set up map boundary
     var bounds = new google.maps.LatLngBounds();
 
+    var markers = [];
     var marker, i;
 
     // loop through restaurants and set up markers/infowindows
@@ -53,6 +54,9 @@ function init() {
           map: map,
           animation: google.maps.Animation.DROP
         });
+
+        // add marker to markers array
+        markers.push(marker);
 
         // extend boundary of map to fit new marker
         bounds.extend(marker.position);
@@ -68,4 +72,28 @@ function init() {
 
     // tell the map to fit the new boundary set by markers
     map.fitBounds(bounds);
+
+    // listen for click on the show/hide restaurants buttons
+    document.querySelector("#show-all").addEventListener('click', showRestaurants);
+    document.querySelector("#hide-all").addEventListener('click', hideRestaurants);
+
+    // show all restaurants
+    function showRestaurants() {
+        // loop through markers array, extend boundary of map, and show the marker
+        for (var i = 0; i < markers.length; i++) {
+            // reset animation since it doesn't seem to play again after hiding
+            markers[i].setAnimation(google.maps.Animation.DROP);
+            markers[i].setMap(map);
+            bounds.extend(markers[i].position);
+        }
+        // tell the map to fit the new boundary set by markers
+        map.fitBounds(bounds);
+    }
+
+    // hide all restaurants
+    function hideRestaurants() {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(null);
+        };
+    };
 };
