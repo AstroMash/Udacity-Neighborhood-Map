@@ -32,6 +32,10 @@ var ViewModel = function() {
         } else {
             // filter restaurant titles based on query
             return ko.utils.arrayFilter(self.restaurants(), function(restaurant) {
+                if (restaurant.title.toLowerCase().indexOf(filter) !== -1)
+                restaurant.marker.setVisible(true)
+                else
+                restaurant.marker.setVisible(false)
                 return restaurant.title.toLowerCase().indexOf(filter) !== -1;
             });
         };
@@ -74,6 +78,9 @@ function init() {
         // add marker to markers array
         markers.push(marker);
 
+        // add marker to location
+        vm.restaurants()[i].marker = marker;
+
         // extend boundary of map to fit new marker
         bounds.extend(marker.position);
   
@@ -95,8 +102,12 @@ function init() {
 
     // show all restaurants
     function showRestaurants() {
+        // clear search filter
+        vm.query('');
         // loop through markers array, extend boundary of map, and show the marker
         for (var i = 0; i < markers.length; i++) {
+            // reset any invisible markers (from filter function)
+            markers[i].setVisible(true);
             // reset animation since it doesn't seem to play again after hiding
             markers[i].setAnimation(google.maps.Animation.DROP);
             markers[i].setMap(map);

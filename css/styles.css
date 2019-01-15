@@ -56,6 +56,12 @@ h1 {
     height: 2.5em;
 }
 
+#filter {
+    width: 19em;
+    display: block;
+    margin: 1.5em auto;
+}
+
 #map {
     bottom: 0;
     height: 100%;
