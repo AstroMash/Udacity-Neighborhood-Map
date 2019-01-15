@@ -15,7 +15,8 @@
                 <input id="show-all" type="button" value="Show all">
                 <input id="hide-all" type="button" value="Hide all">
             </div>
-            <ul data-bind="foreach: restaurants">
+            <input id="filter" type="search" data-bind="textInput: query" placeholder="Filter restaurants">
+            <ul data-bind="foreach: filteredRestaurants">
                 <li data-bind="text: title"></li>
             </ul>
         </aside>

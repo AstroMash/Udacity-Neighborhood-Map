@@ -20,6 +20,22 @@ var ViewModel = function() {
         new Location('Brennan\'s', '29.956240', '-90.066719'),
         new Location('Sylvain', '29.957100', '-90.064240')
     ]);
+
+    // setup empty list filter
+    self.query = ko.observable("");
+
+    self.filteredRestaurants = ko.computed(function() {
+        var filter = self.query().toLowerCase();
+        if(!filter) {
+            // if filter query is empty, return all restaurants
+            return self.restaurants();
+        } else {
+            // filter restaurant titles based on query
+            return ko.utils.arrayFilter(self.restaurants(), function(restaurant) {
+                return restaurant.title.toLowerCase().indexOf(filter) !== -1;
+            });
+        };
+    });
 };
 
 function init() {
