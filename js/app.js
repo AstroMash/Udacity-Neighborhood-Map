@@ -266,6 +266,8 @@ function init() {
             markers[i].setMap(map);
             bounds.extend(markers[i].position);
         }
+        // close infowindow
+        infoWindow.close();
         // tell the map to fit the new boundary set by markers
         map.fitBounds(bounds);
     }
@@ -273,6 +275,8 @@ function init() {
     // hide all restaurants
     function hideRestaurants() {
         for (var i = 0; i < markers.length; i++) {
+            // close infowindow
+            infoWindow.close();
             markers[i].setMap(null);
         };
     };
