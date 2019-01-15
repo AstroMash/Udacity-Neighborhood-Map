@@ -44,18 +44,6 @@ h1 {
     cursor: pointer;
 }
 
-#toggle-controls {
-    text-align: center;
-    margin: 0 auto;
-    width: 16em;
-}
-
-#toggle-controls input[type=button] {
-    text-align: center;
-    width: 100%;
-    height: 2.5em;
-}
-
 #filter {
     width: 19em;
     display: block;
@@ -70,3 +58,18 @@ h1 {
     right: 0;
 }
 
+p.info {
+    margin: 0 0 5px 0;
+}
+
+p.info-title {
+    font-weight: bold;
+}
+
+p.info-category {
+    font-style: italic;
+}
+
+.info-attrib {
+    margin-top: 10px;
+}
