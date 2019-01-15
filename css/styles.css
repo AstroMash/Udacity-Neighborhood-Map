@@ -29,6 +29,21 @@ h1 {
     width: 340px;
 }
 
+#sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#sidebar ul li {
+    padding-left: 2em;
+    line-height: 3em;
+}
+
+#sidebar ul li:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
 #map {
     bottom: 0;
     height: 100%;
