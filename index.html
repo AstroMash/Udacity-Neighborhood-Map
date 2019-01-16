@@ -8,23 +8,23 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="wrapper" data-bind="css: {'toggled' : sidebarActive}">
-        <aside id="sidebar">
-            <div id="sidebar-inner">
+    <div class="wrapper" data-bind="css: {'toggled' : sidebarActive}">
+        <aside class="sidebar">
+            <div class="sidebar-inner">
                 <h1>French Quarter Restaurants</h1>
-                <input id="filter" type="search" data-bind="textInput: query" placeholder="Filter restaurants">
+                <input class="filter" type="search" data-bind="textInput: query" placeholder="Filter restaurants">
                 <ul data-bind="foreach: filteredRestaurants">
                     <li data-bind="text: title, click: $parent.showMarker"></li>
                 </ul>
             </div>
         </aside>
-        <main id="content">
-            <div id="menu-toggle" data-bind="click: toggleSidebar">
+        <main class="content">
+            <div class="menu-toggle" data-bind="click: toggleSidebar">
                 <span></span>
                 <span></span>
                 <span></span>
             </div>
-            <div id="map"></div>
+            <div id="map" class="map-canvas"></div>
         </main>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
