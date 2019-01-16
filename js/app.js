@@ -23,13 +23,13 @@ const ViewModel = function() {
         } else {
             // filter restaurant titles based on query
             return ko.utils.arrayFilter(self.restaurants(), function(restaurant) {
+                // hide infowindow while filtering
+                if(restaurant.marker.infoWindow)
+                restaurant.marker.infoWindow.close();
                 if (restaurant.title.toLowerCase().indexOf(filter) !== -1) {
                     restaurant.marker.setVisible(true);
                 } else {
                     restaurant.marker.setVisible(false);
-                    // hide infowindow if its marker isn't visible
-                    if(restaurant.marker.infoWindow)
-                    restaurant.marker.infoWindow.close();
                 }
                 return restaurant.title.toLowerCase().indexOf(filter) !== -1;
             });
