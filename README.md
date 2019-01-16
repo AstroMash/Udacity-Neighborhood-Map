@@ -6,7 +6,7 @@ This application was created for the Udacity Front-End Web Developer Nanodegree 
 
 * Clone or download this repo
 * Open index.html in a web browser
-* Or you may view the [online demo](https://popshift.net/mapshift)
+* Or you may view the [online demo](https://popshift.github.io/Udacity-Neighborhood-Map/)
 
 ## Resources
 
