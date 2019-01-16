@@ -22,12 +22,12 @@ const ViewModel = function() {
             // filter restaurant titles based on query
             return ko.utils.arrayFilter(self.restaurants(), function(restaurant) {
                 if (restaurant.title.toLowerCase().indexOf(filter) !== -1)
-                restaurant.marker.setVisible(true)
+                restaurant.marker.setVisible(true);
                 else
-                restaurant.marker.setVisible(false)
+                restaurant.marker.setVisible(false);
                 return restaurant.title.toLowerCase().indexOf(filter) !== -1;
             });
-        };
+        }
     });
 
     // show a list item's related marker infowindow when the list item is clicked
@@ -44,7 +44,7 @@ function init() {
     const frenchQuarter = {
         lat: 29.9584,
         lng: -90.0644
-    }
+    };
 
     map = new google.maps.Map(document.getElementById('map'), {
         styles: unsatBrown,
@@ -87,7 +87,7 @@ function init() {
                 showInfoWindow(map, marker);
             };
         })(marker, i));
-    };
+    }
 
     // tell the map to fit the new boundary set by markers
     map.fitBounds(bounds);
@@ -139,7 +139,7 @@ function init() {
         });
 
         bounceMarker(marker);
-    }
+    };
 
     this.bounceMarker = function(marker) {
             // MAKE IT BOUNCE (but only once)!
@@ -149,4 +149,4 @@ function init() {
             }, 700);
     };
 
-};
+}
