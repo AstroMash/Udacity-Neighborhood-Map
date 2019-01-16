@@ -26,11 +26,10 @@ const ViewModel = function() {
                 // hide infowindow while filtering
                 if(restaurant.marker.infoWindow)
                 restaurant.marker.infoWindow.close();
-                if (restaurant.title.toLowerCase().indexOf(filter) !== -1) {
-                    restaurant.marker.setVisible(true);
-                } else {
-                    restaurant.marker.setVisible(false);
-                }
+                if (restaurant.title.toLowerCase().indexOf(filter) !== -1)
+                restaurant.marker.setVisible(true);
+                else
+                restaurant.marker.setVisible(false);
                 return restaurant.title.toLowerCase().indexOf(filter) !== -1;
             });
         }
@@ -129,19 +128,19 @@ function init() {
             marker.foursquareId = response.id;
             marker.foursquareLink = "https://foursquare.com/v/" + marker.foursquareId;
             // add foursquare data to infowindow
-            infoWindow.setContent(
-                '<p class="info info-title">' + marker.title + '</p>' +
-                '<p class="info info-street">' + marker.streetAddress + '</p>' +
-                '<p class="info info-category">' + marker.category + '</p>' + 
-                '<p class="info info-link"><a href="' + marker.foursquareLink + '?ref=' + fsClientId + '" target="_blank">View on Foursquare</a></p>' +
-                '<img class="info-attrib" src="img/powered-by-foursquare-grey-sm.png" alt="Powered by Foursquare">'
-            );
+            infoWindow.setContent(`
+                <p class="info info-title">${marker.title}</p>
+                <p class="info info-street">${marker.streetAddress}</p>
+                <p class="info info-category">${marker.category}</p>
+                <p class="info info-link"><a href="${marker.foursquareLink}?ref=${fsClientId}" target="_blank">View on Foursquare</a></p>
+                <img class="info-attrib" src="img/powered-by-foursquare-grey-sm.png" alt="Powered by Foursquare">
+            `);
         })
         .fail(function() {
-            infoWindow.setContent(
-                '<p class="info info-title">' + marker.title + '</p>' +
-                '<p class="info info-error">Foursquare data not available!</p>'
-            );
+            infoWindow.setContent(`
+                <p class="info info-title">${marker.title}</p>
+                <p class="info info-error">Foursquare data not available!</p>
+            `);
         })
         .always(function() {
             // show infowindow
