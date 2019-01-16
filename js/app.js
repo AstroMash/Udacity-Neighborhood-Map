@@ -36,6 +36,10 @@ const ViewModel = function() {
     };
 };
 
+function mapError() {
+    alert("Google Maps failed to load! Please, reload or try again later.");
+}
+
 function init() {
     // initialize knockout bindings on ViewModel
     const vm = new ViewModel();
