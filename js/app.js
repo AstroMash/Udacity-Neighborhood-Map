@@ -4,6 +4,13 @@ let map;
 
 const ViewModel = function() {
     const self = this;
+
+    self.sidebarActive = ko.observable(true);
+    self.toggleSidebar = function() {
+        self.sidebarActive(!self.sidebarActive());
+    }
+
+    // setup restaurants array
     self.restaurants = ko.observableArray(locations);
 
     // setup empty list filter
