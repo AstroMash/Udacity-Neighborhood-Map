@@ -1,3 +1,5 @@
+'use strict';
+
 let map;
 
 const ViewModel = function() {
@@ -21,10 +23,14 @@ const ViewModel = function() {
         } else {
             // filter restaurant titles based on query
             return ko.utils.arrayFilter(self.restaurants(), function(restaurant) {
-                if (restaurant.title.toLowerCase().indexOf(filter) !== -1)
-                restaurant.marker.setVisible(true);
-                else
-                restaurant.marker.setVisible(false);
+                if (restaurant.title.toLowerCase().indexOf(filter) !== -1) {
+                    restaurant.marker.setVisible(true);
+                } else {
+                    restaurant.marker.setVisible(false);
+                    // hide infowindow if its marker isn't visible
+                    if(restaurant.marker.infoWindow)
+                    restaurant.marker.infoWindow.close();
+                }
                 return restaurant.title.toLowerCase().indexOf(filter) !== -1;
             });
         }
@@ -140,6 +146,7 @@ function init() {
         .always(function() {
             // show infowindow
             infoWindow.open(map, marker);
+            marker.infoWindow = infoWindow;
         });
 
         bounceMarker(marker);

@@ -1,3 +1,5 @@
+'use strict';
+
 class Location{
     constructor(title, lat, long) {
         this.title = title;

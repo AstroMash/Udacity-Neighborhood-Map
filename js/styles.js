@@ -1,3 +1,5 @@
+'use strict';
+
 // Create a styles array to use with the map
 // unsatBrown taken from https://snazzymaps.com/style/70/unsaturated-browns
 const unsatBrown = [
